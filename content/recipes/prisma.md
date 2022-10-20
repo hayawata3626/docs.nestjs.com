@@ -516,6 +516,27 @@ This controller implements the following routes:
 
 - `/post/:id`: Delete a post by its `id`
 
+##### Add each service to `app.module.ts`
+
+You need to add each service to providers.
+
+Replace the contents of the `app.module.ts` file with the following code:
+
+```typescript
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { PostService } from './post.service';
+import { PrismaService } from './prisma.service';
+import { UserService } from './user.service';
+
+@Module({
+  imports: [],
+  controllers: [AppController],
+  providers: [PrismaService, UserService, PostService],
+})
+export class AppModule {}
+```
+
 #### Issues with `enableShutdownHooks`
 
 Prisma interferes with NestJS `enableShutdownHooks`. Prisma listens for shutdown signals and will call `process.exit()` before your application shutdown hooks fire. To deal with this, you would need to add a listener for Prisma `beforeExit` event.
